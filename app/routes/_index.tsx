@@ -63,7 +63,7 @@ export default function Index() {
         Commit activity by day and hour
       </h1>
       <p className="text-center text-xl">
-        This page is updated in real time with the latest posts from the influencers you follow.
+        This page is updated in real time with the latest posts from the post processed on Upfluence
         <br />
         Until now we have analyzed {totalPosts} {toPlural('post', totalPosts)}.
       </p>

@@ -53,4 +53,6 @@ function createChart(name: string) {
   return new Chart(node, config);
 };
 
+export type BubbleChart = ReturnType<typeof createChart>;
+
 export default createChart;
