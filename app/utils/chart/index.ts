@@ -1,8 +1,6 @@
-import type { BubbleDataPoint } from "chart.js/auto";
+import { Chart, LinearScale, PointElement, BubbleController, Tooltip } from 'chart.js';
 
-import Chart from "chart.js/auto";
-
-type BubbleChart = Chart<"bubble", BubbleDataPoint[], string>;
+Chart.register(LinearScale, PointElement, BubbleController, Tooltip);
 
 function createDatapoints() {
   const dayOfWeek = Array.from({ length: 7 }, (_, i) => i);
@@ -52,8 +50,7 @@ function createChart(name: string) {
   } as const;
 
   const node = document.getElementById(name) as HTMLCanvasElement;
-  return new Chart(node, config) satisfies BubbleChart;
+  return new Chart(node, config);
 };
 
-export type { BubbleChart }
 export default createChart;
