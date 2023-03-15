@@ -24,10 +24,15 @@ export default function Index() {
   }, []);
 
   const addNew = useCallback((post: Post, { chart, entries }: PostChartData) => {
-    chart.data.datasets[0].data = chart.data.datasets[0].data
-      .map(({ x, y, r }) => ({ x, y, r: y === post.day && x === post.hour ? r + 1 : r }));
-    chart.update();
-
+    const data = chart.data.datasets[0].data;
+    for (let i = 0; i < data.length; i++) {
+      const point = data[i];
+      if (point.x === post.hour && point.y === post.day) {
+        point.r += 1;
+        chart.show(0, i);
+        break;
+      }
+    }
     return { chart, entries: entries + 1 };
   }, []);
 
