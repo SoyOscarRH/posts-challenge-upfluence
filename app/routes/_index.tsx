@@ -6,21 +6,10 @@ import { useCallback, useEffect } from "react";
 import useOnNewPost from "~/utils/hooks/useOnNewPost";
 import useStateWithCallbackAfter from "~/utils/hooks/useStateWithCallbackAfter";
 import createChart from "~/utils/chart";
+import { toPlural } from "../utils/toPlural";
+import Chart from "~/component/Chart";
 
 type PostChartData = { chart: BubbleChart, entries: number }
-
-const toNiceName = {
-  pin: "Pins from Pinterest",
-  instagram_media: "Instagram Media",
-  youtube_video: "YouTube Videos",
-  article: "Articles",
-  tweet: "Tweets",
-  facebook_status: "Facebook"
-} as Record<string, string>;
-
-function toPlural(word: string, count: number) {
-  return count === 1 ? word : word + 's';
-}
 
 export default function Index() {
   const [charts, setCharts] = useStateWithCallbackAfter<Record<string, PostChartData | null>>({});
@@ -68,19 +57,8 @@ export default function Index() {
         Until now we have analyzed {totalPosts} {toPlural('post', totalPosts)}.
       </p>
       <section className={`flex flex-row items-center gap-8 overflow-scroll w-10/12 snap-proximity snap-x py-4 ${moreThanOne ? 'justify-start px-[10vw]' : 'justify-center'}`}>
-        {Object.entries(charts)
-          .map(([name, item]) => (
-            <article key={name} className="bg-gray-100 p-4 rounded-lg my-4 shadow-sm snap-center flex flex-col items-center">
-              {item && (
-                <>
-                  <h2 className="text-2xl font-bold">{toNiceName[name] ?? "Social Media"}</h2>
-                  <p>{item.entries} {toPlural('post', item.entries)} analyzed</p>
-                </>
-              )}
-              <div className="w-[60vw] pt-4">
-                <canvas id={name}></canvas>
-              </div>
-            </article>
+        {Object.entries(charts).map(([name, item]) => (
+            <Chart key={name} name={name} entries={item?.entries ?? null} />
           ))}
       </section>
     </main>
